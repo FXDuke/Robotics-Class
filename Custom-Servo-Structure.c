@@ -55,7 +55,7 @@ void setup() {
   randomSeed(analogRead(0));
 }
 
-int DT = millis();
+unsigned long DT = millis();
 
 void loop() {
     DT = millis()-DT;
