@@ -13,6 +13,8 @@ typedef struct ServoObject {
 
     float Rotation = 0.0;
     float TweenData[5] = {0,0.0,0.0,0.0,0.0}; // Active, Origin, Destination, Distance, Time
+    
+    void Attach = *Instance.Attach;
 
     void Begin(float newRotation, int Time) {
         int time = (Time) ? Time : 0;
@@ -60,7 +62,7 @@ bool UpdateServo(newServo Object) {
 newServo _MicroServo;
 
 void setup() {
-  _MicroServo.Instance.attach(MicroServoPin);
+  _MicroServo.Attach(MicroServoPin);
   randomSeed(analogRead(0));
 }
 
