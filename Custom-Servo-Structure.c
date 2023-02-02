@@ -14,7 +14,7 @@ typedef struct ServoObject {
     float Rotation = 0.0;
     float TweenData[5] = {0,0.0,0.0,0.0,0.0}; // Active, Origin, Destination, Distance, Time
     
-    void Attach = *Instance.Attach;
+    void (*Attach)(int) = &Instance.attach; 
 
     void Begin(float newRotation, int Time) {
         int time = (Time) ? Time : 0;
