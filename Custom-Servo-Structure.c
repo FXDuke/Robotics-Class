@@ -12,7 +12,7 @@ typedef struct ServoObject {
     float Rotation = 0.0;
     float TweenData[5] = {0,0.0,0.0,0.0,0.0}; // Active, Origin, Destination, Distance, Time
 
-    void Rotate:Begin(float newRotation, int Time) {
+    void Begin(float newRotation, int Time) {
         int time = (Time) ? Time : 0;
         if (TweenData[0]==1) {
             return;
@@ -21,11 +21,11 @@ typedef struct ServoObject {
 
         TweenData[1] = Rotation;
         TweenData[2] = newRotation;
-        TweenData[3] = math.abs(newRotation-Rotation);
+        TweenData[3] = fabs(newRotation-Rotation);
         TweenData[4] = time;
     }
 
-    void Rotate:End() {
+    void End() {
         TweenData[0] = 0;
     }
 
@@ -62,4 +62,5 @@ void loop() {
 
     _MicroServo.Update(DT);
 }
+
 
