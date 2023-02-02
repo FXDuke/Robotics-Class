@@ -13,6 +13,7 @@ typedef struct ServoObject {
 
     float Rotation = 0.0;
     float TweenData[5] = {0,0.0,0.0,0.0,0.0}; // Active, Origin, Destination, Distance, Time
+    float RotationMultiplier = 1.0;
     
     void (*Attach)(int) = (void (*)(int))Instance.attach; 
 
@@ -36,7 +37,7 @@ typedef struct ServoObject {
     bool Update() {
         if (TweenData[0]==1) {
             int Direction = (TweenData[1]>TweenData[2]) ? -1 : 1;
-            float RotationChange = fabs(TweenData[3]/TweenData[4])*Direction;
+            float RotationChange = fabs(TweenData[3]/(TweenData[4]*RotationMultiplier))*Direction;
 
             Rotation += RotationChange;
 
@@ -55,7 +56,10 @@ bool UpdateServo(newServo Object) {
     if (Object.Active==false) {
         return false;
     }
-    return Object.Update();
+    int TimeBegan = millis();
+    bool Result = Object.Update();
+    Object.RotationMultiplier = millis()-TimeBegan;
+    return Result;
 }
 
 newServo _MicroServo;
