@@ -2,6 +2,8 @@
 #include <Servo.h>
 int ServoAmount = 0;
 
+unsigned long DT = millis();
+
 typedef struct ServoObject {
     Servo Instance;
 
@@ -29,8 +31,8 @@ typedef struct ServoObject {
         TweenData[0] = 0;
     }
 
-    bool Update(float DeltaTime) {
-        delay(DeltaTime);
+    bool Update() {
+        delay(DT);
         if (TweenData[0]==1) {
             int Direction = (TweenData[1]>TweenData[2]) ? -1 : 1;
             float RotationChange = fabs(TweenData[3]/TweenData[4])*Direction;
@@ -48,6 +50,13 @@ typedef struct ServoObject {
     }
 } newServo;
 
+bool UpdateServo(newServo Object) {
+    if (Object.Active==false) {
+        return false;
+    }
+    return Object.Update();
+}
+
 newServo _MicroServo;
 
 void setup() {
@@ -55,12 +64,10 @@ void setup() {
   randomSeed(analogRead(0));
 }
 
-unsigned long DT = millis();
-
 void loop() {
     DT = millis()-DT;
 
-    _MicroServo.Update(DT);
+    bool _MicroServoSuccess = UpdateServo(_MicroServo);
 }
 
 
