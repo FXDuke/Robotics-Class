@@ -34,7 +34,6 @@ typedef struct ServoObject {
     }
 
     bool Update() {
-        delay(DT);
         if (TweenData[0]==1) {
             int Direction = (TweenData[1]>TweenData[2]) ? -1 : 1;
             float RotationChange = fabs(TweenData[3]/TweenData[4])*Direction;
@@ -70,6 +69,8 @@ void loop() {
     DT = millis()-DT;
 
     bool _MicroServoSuccess = UpdateServo(_MicroServo);
+    
+    delay(DT);
 }
 
 
