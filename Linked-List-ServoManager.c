@@ -1,5 +1,3 @@
-// Work in progress attempt to make a linked list servo manager; rough draft
-
 typedef struct ServoNode {
   struct ServoNode Next;
   Servo Current;
@@ -28,11 +26,13 @@ void Pairs(void (*ReturnFunction)(int i, struct ServoNode v)) {
 int Ins(Servo Object) {
   struct ServoTable Last = ServoTable.Head;
   ServoManager.Head = (Node *) malloc(sizeof(Node));
-  ServoManager.Head->Index = ServoTable.Size++;
+  ServoManager * (*ServoManager.Size++) = ServoManager.Head;
+  ServoManager.Head->Index = ServoManager.Size;
   ServoManager.Head->Current = Object;
   ServoManager.Head->Next = Last;
   return ServoManager.Size;
 }
+
 
 void Del(int Index) {
   struct ServoNode Current = ServoManager.Head;
@@ -42,6 +42,7 @@ void Del(int Index) {
       stuct ServoNode _Current = Current->Next;
       for (int SizeIndex=Current.Index;SizeIndex<=ServoManager.Size;SizeIndex++) {
         if (_Current!=NULL) {
+          ServoManager * (*SizeIndex) = _Current;
           _Current->Index = SizeIndex;
         }
       }
