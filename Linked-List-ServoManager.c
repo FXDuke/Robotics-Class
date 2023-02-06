@@ -26,9 +26,9 @@ void Pairs(void (*ReturnFunction)(int i, struct ServoNode v)) {
 }
 
 int Ins(Servo Object) {
-  struct ServoTable Last = ServoTable.Head ? NULL;
+  struct ServoTable Last = ServoManager.Head ? NULL;
   ServoManager.Head = (Node *) malloc(sizeof(Node));
-  ServoManager.Foot = (ServoManager.Foot!=NULL) ? ServerManager.Foot : ServoManager.Head;
+  ServoManager.Foot = (ServoManager.Foot!=NULL) ? ServoManager.Foot : ServoManager.Head;
   ServoManager * (*ServoManager.Size++) = ServoManager.Head;
   ServoManager.Head->Index = ServoManager.Size;
   ServoManager.Head->Current = Object;
@@ -45,7 +45,7 @@ void Del(int Index) {
   struct ServoNode Last;
   while (Current->Next != NULL) {
     if (Current.Index==Index) {
-      stuct ServoNode _Current = Current->Next;
+      struct ServoNode _Current = Current->Next;
       for (int SizeIndex=Current.Index;SizeIndex<=ServoManager.Size;SizeIndex++) {
         if (_Current!=NULL) {
           ServoManager * (*SizeIndex) = _Current;
