@@ -1,5 +1,6 @@
 typedef struct ServoNode {
   struct ServoNode Next;
+  struct ServoNode Last;
   Servo Current;
   int Index;
 } Node;
@@ -7,6 +8,7 @@ typedef struct ServoNode {
 
 typedef struct ServoTable {
   struct ServoNode Head;
+  struct ServoNode Foot;
   int Size;
   void (*pairs)(void (*)(int i, struct ServoNode v)); // Pairs
   int (*ins)(Servo Object); // Insert
@@ -24,18 +26,22 @@ void Pairs(void (*ReturnFunction)(int i, struct ServoNode v)) {
 }
 
 int Ins(Servo Object) {
-  struct ServoTable Last = ServoTable.Head;
+  struct ServoTable Last = ServoTable.Head ? NULL;
   ServoManager.Head = (Node *) malloc(sizeof(Node));
+  ServoManager.Foot = (ServoManager.Foot!=NULL) ? ServerManager.Foot : ServoManager.Head;
   ServoManager * (*ServoManager.Size++) = ServoManager.Head;
   ServoManager.Head->Index = ServoManager.Size;
   ServoManager.Head->Current = Object;
-  ServoManager.Head->Next = Last;
+  if (Last!=NULL) {
+    Last->Next = ServoManager.Head;
+    ServoManager.Head->Last = Last;
+  }
   return ServoManager.Size;
 }
 
 
 void Del(int Index) {
-  struct ServoNode Current = ServoManager.Head;
+  struct ServoNode Current = ServoManager.Foot;
   struct ServoNode Last;
   while (Current->Next != NULL) {
     if (Current.Index==Index) {
@@ -48,6 +54,7 @@ void Del(int Index) {
       }
       ServoManager.Size--;
       Last->Next = Current->Next;
+      Current->Next->Last = Last;
       free(Current);
       break;
     }
