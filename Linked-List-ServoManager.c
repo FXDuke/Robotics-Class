@@ -8,7 +8,7 @@ typedef struct ServoNode {
 typedef struct ServoTable {
   struct ServoNode Head;
   int Size;
-  void (*pairs)(void (*)(int i, struct ServNode v)); // Pairs
+  void (*pairs)(void (*)(int i, struct ServoNode v)); // Pairs
   int (*ins)(Servo Object); // Insert
   void (*del)(int Index); // Remove
 }
