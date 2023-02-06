@@ -18,9 +18,10 @@ typedef struct ServoTable {
 struct ServoTable ServoManager;
 
 void Pairs(void (*ReturnFunction)(int i, struct ServoNode v)) {
+  struct ServoNode Current = ServoManager.Head;
   for (int Index=0;Index<=ServoManager.Size;Index++) {
-    ServoManager.Head->Next;
-    ReturnFunction(Index,ServoManager.Head);
+    Current = Current->Next;
+    ReturnFunction(Index,Current);
   }
 }
 
